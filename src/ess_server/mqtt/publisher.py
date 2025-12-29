@@ -48,11 +48,11 @@ THERMAL_CRITICAL = 80.0
 def generate_location(event_type: str) -> str:
     """
     프로젝트 규칙에 맞는 location 생성
-    gas     -> zone_0 ~ zone_5
+    gas     -> zone_1 ~ zone_6
     thermal -> rack_1_1 ~ rack_3_3
     """
     if event_type == "gas":
-        zone = random.randint(0, 5)
+        zone = random.randint(1, 6)
         return f"zone_{zone}"
 
     elif event_type == "thermal":
