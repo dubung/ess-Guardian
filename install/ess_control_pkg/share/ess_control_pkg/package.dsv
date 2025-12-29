@@ -1,0 +1,8 @@
+source;share/ess_control_pkg/hook/cmake_prefix_path.ps1
+source;share/ess_control_pkg/hook/cmake_prefix_path.dsv
+source;share/ess_control_pkg/hook/cmake_prefix_path.sh
+source;share/ess_control_pkg/local_setup.bash
+source;share/ess_control_pkg/local_setup.dsv
+source;share/ess_control_pkg/local_setup.ps1
+source;share/ess_control_pkg/local_setup.sh
+source;share/ess_control_pkg/local_setup.zsh

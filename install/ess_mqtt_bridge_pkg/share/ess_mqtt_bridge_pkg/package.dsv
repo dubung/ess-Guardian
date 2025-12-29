@@ -1,0 +1,9 @@
+source;share/ess_mqtt_bridge_pkg/hook/pythonpath.ps1
+source;share/ess_mqtt_bridge_pkg/hook/pythonpath.dsv
+source;share/ess_mqtt_bridge_pkg/hook/pythonpath.sh
+source;share/ess_mqtt_bridge_pkg/hook/ament_prefix_path.ps1
+source;share/ess_mqtt_bridge_pkg/hook/ament_prefix_path.dsv
+source;share/ess_mqtt_bridge_pkg/hook/ament_prefix_path.sh
+source;../../build/ess_mqtt_bridge_pkg/share/ess_mqtt_bridge_pkg/hook/pythonpath_develop.ps1
+source;../../build/ess_mqtt_bridge_pkg/share/ess_mqtt_bridge_pkg/hook/pythonpath_develop.dsv
+source;../../build/ess_mqtt_bridge_pkg/share/ess_mqtt_bridge_pkg/hook/pythonpath_develop.sh

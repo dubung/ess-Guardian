@@ -1,0 +1,2 @@
+source;share/ess_control_pkg/environment/ament_prefix_path.sh
+source;share/ess_control_pkg/environment/path.sh
