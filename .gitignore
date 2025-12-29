@@ -7,3 +7,7 @@ __pycache__/
 src/ess_server/mqtt/paho.mqtt.c/
 src/ess_server/mqtt/paho.mqtt.cpp/
 
+build/
+install/
+log/
+.cache/

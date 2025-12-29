@@ -1,1 +1,0 @@
-/home/ros/2512_4th_proj_chanmi/src/ess_mqtt_bridge_pkg/setup.py
