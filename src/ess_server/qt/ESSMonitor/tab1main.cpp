@@ -110,17 +110,22 @@ void Tab1Main::updateESSMap()
         QString location = query.value(0).toString();
         QString level = query.value(1).toString();
         QDateTime alertTime = query.value(2).toDateTime();
-        int zone = location.split("_").last().toInt();
+        QStringList parts = location.split("_");
+        if(parts.size() < 2) continue;
 
-        currentlyAlertedZones.insert(zone);
-        int zoneIndex = zone - 1;
+        QString type = parts.first().toLower();
+        int zone = parts.last().toInt();
+        if (type == "zone"){
+            currentlyAlertedZones.insert(zone);
+            int zoneIndex = zone - 1;
 
-        // 위젯 색상 변경 (Warning 또는 Critical)
-        pMapWidget->setZoneState(zoneIndex, (level == "warning") ? ESSMapWidget::Warning : ESSMapWidget::Critical);
+            // 위젯 색상 변경 (Warning 또는 Critical)
+            pMapWidget->setZoneState(zoneIndex, (level == "warning") ? ESSMapWidget::Warning : ESSMapWidget::Critical);
 
-        // 전체 위험 수위 체크 (텍스트 표시용)
-        if (level == "critical") maxLevel = "critical";
-        else if (maxLevel != "critical") maxLevel = "warning";
+            // 전체 위험 수위 체크 (텍스트 표시용)
+            if (level == "critical") maxLevel = "critical";
+            else if (maxLevel != "critical") maxLevel = "warning";
+        }
     }
 
     // 1번부터 6번 구역까지 돌면서, 이번 쿼리 결과에 없는 구역은 무조건 Normal로 처리!!!!
@@ -137,7 +142,7 @@ void Tab1Main::updateESSMap()
         ui->pLabelGas->setStyleSheet(maxLevel == "warning" ? "color: orange;" : "color: red; font-weight: bold;");
     } else {
         ui->pLabelGas->setText("-");
-        ui->pLabelGas->setStyleSheet("color: white;");
+        ui->pLabelGas->setStyleSheet("color: black;");
     }
 }
 
@@ -208,6 +213,6 @@ void Tab1Main::updateBatteryRack()
         ui->pLabelThermal->setStyleSheet(maxLevel == "warning" ? "color: orange;" : "color: red; font-weight: bold;");
     } else {
         ui->pLabelThermal->setText("-");
-        ui->pLabelThermal->setStyleSheet("color: white;");
+        ui->pLabelThermal->setStyleSheet("color: black;");
     }
 }

@@ -24,9 +24,9 @@ ESSMapWidget::ESSMapWidget(QWidget *parent)
     connect(pblinkTimer, SIGNAL(timeout()), this, SLOT(onBlinkTimeout()));
     pblinkTimer->start(500);
 
-    auto *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(0,0,0,0);
-    layout->addWidget(ui->pLabelMap);
+    // auto *layout = new QVBoxLayout(this);
+    // layout->setContentsMargins(0,0,0,0);
+    // layout->addWidget(ui->pLabelMap);
 }
 
 ESSMapWidget::~ESSMapWidget()
@@ -61,7 +61,7 @@ void ESSMapWidget::updateMapSize()
     if (this->width() <= 0 || mapPixmap.isNull()) return;
 
     // 1. 라벨 자체의 크기를 위젯 전체 크기로 맞춤
-    ui->pLabelMap->setGeometry(this->rect());
+    // ui->pLabelMap->setGeometry(this->rect());
 
     // 2. 이미지를 라벨 크기에 맞춰 스케일링 (비율 유지)
     QPixmap scaled = mapPixmap.scaled(ui->pLabelMap->size(),

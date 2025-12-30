@@ -36,6 +36,8 @@ void LoginWindow::on_pPBtton_Login_clicked()
         else
         {
             cnt++;
+            ui->pLineEdit_ID->clear();
+            ui->pLineEdit_PW->clear();
             ui->pLabel_status->setText(QString("Login Failed. Please retry. %1/5").arg(cnt));
         }
     }

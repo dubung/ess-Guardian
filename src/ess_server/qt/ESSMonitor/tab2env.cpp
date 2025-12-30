@@ -7,6 +7,8 @@ Tab2Env::Tab2Env(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->pEnvTable->verticalHeader()->setVisible(false); // Qt table 기본 인덱스 삭제
+
     if (!QSqlDatabase::database().isOpen()) {
         qDebug() << "[Tab2Env] DB not open!";
         ui->pPBSearchDB->setEnabled(false);
@@ -96,40 +98,43 @@ void Tab2Env::on_pPBSearchDB_clicked()
         return;
     }
 
-    // QSqlQuery countSqlQuery(countStrQuery);
-    // int rowCount = 0;
-    // if(countSqlQuery.next()) {
-    //     rowCount = countSqlQuery.value(0).toInt();
-    // }
-
     int rowCount = 0;
     while (sqlQuery.next())
     {
         ui->pEnvTable->insertRow(rowCount);
 
-        QString idStr = sqlQuery.value("id").toString();
-        QString tempStr = sqlQuery.value("temperature").toString();
-        QString humiStr = sqlQuery.value("humidity").toString();
+        int db_id = sqlQuery.value("id").toInt();
+        QString formattedID = QString("ENV-%1").arg(db_id, 3, 10, QChar('0'));
 
-        QString timeStr = sqlQuery.value("measure_time").toString();
-        QDateTime xValue = QDateTime::fromString(timeStr, "yyyy-MM-dd HH:mm:ss");
+        float tempVal = sqlQuery.value("temperature").toFloat();
+        float humiVal = sqlQuery.value("humidity").toFloat();
+
+        QDateTime xValue = sqlQuery.value("measure_time").toDateTime();
         xValue.setTimeSpec(Qt::LocalTime);
-        if (!xValue.isValid()) {
-            xValue = QDateTime::fromString(timeStr, Qt::ISODate);
-            xValue.setTimeSpec(Qt::LocalTime);
-        }
 
         // 그래프에 값 추가
         if (xValue.isValid()) {
-            tempLine->append(xValue.toMSecsSinceEpoch(), tempStr.toDouble());
-            humiLine->append(xValue.toMSecsSinceEpoch(), humiStr.toDouble());
+            tempLine->append(xValue.toMSecsSinceEpoch(), tempVal);
+            humiLine->append(xValue.toMSecsSinceEpoch(), humiVal);
         }
 
         // 테이블에 값 추가
-        ui->pEnvTable->setItem(rowCount, 0, new QTableWidgetItem(idStr));
-        ui->pEnvTable->setItem(rowCount, 1, new QTableWidgetItem(xValue.toString("yyyy-MM-dd HH:mm:ss")));
-        ui->pEnvTable->setItem(rowCount, 2, new QTableWidgetItem(tempStr));
-        ui->pEnvTable->setItem(rowCount, 3, new QTableWidgetItem(humiStr));
+        QTableWidgetItem *idItem = new QTableWidgetItem(formattedID);
+        idItem->setTextAlignment(Qt::AlignCenter);
+        ui->pEnvTable->setItem(rowCount, 0, idItem);
+
+        QTableWidgetItem *timeItem = new QTableWidgetItem(xValue.toString("yyyy-MM-dd HH:mm:ss"));
+        // timeItem->setTextAlignment(Qt::AlignCenter);
+        ui->pEnvTable->setItem(rowCount, 1, timeItem);
+
+
+        QTableWidgetItem *tempItem = new QTableWidgetItem(QString::number(tempVal, 'f', 2));
+        tempItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->pEnvTable->setItem(rowCount, 2, tempItem);
+
+        QTableWidgetItem *humiItem = new QTableWidgetItem(QString::number(humiVal, 'f', 2));
+        humiItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->pEnvTable->setItem(rowCount, 3, humiItem);
 
         rowCount++;
     }
@@ -153,6 +158,7 @@ void Tab2Env::on_pPBDeleteDB_clicked()
     QString strQuery =  "DELETE FROM environment_data "
                        "WHERE measure_time BETWEEN '" + strFromDateTime +
                        "' AND '" + strToDateTime + "'";
+
     QSqlQuery sqlQuery;
     if(!sqlQuery.exec(strQuery)) {
         qDebug() << "[ERROR] Delete Query failed:" << sqlQuery.lastError();
@@ -161,23 +167,15 @@ void Tab2Env::on_pPBDeleteDB_clicked()
         qDebug() << "Delete Query OK";
     }
 
-    // 차트 초기화
+    // 차트 데이터 삭제
     tempLine->clear();
     humiLine->clear();
 
-    // 테이블 초기화 및 메모리 해제
-    auto safeDeleteArray = [](QTableWidgetItem*& ptr) {
-        if(ptr) { delete[] ptr; ptr = nullptr; }
-    };
-
-    safeDeleteArray(pQTableWidgetItemId);
-    safeDeleteArray(pQTableWidgetItemDate);
-    safeDeleteArray(pQTableWidgetItemTemp);
-    safeDeleteArray(pQTableWidgetItemHumi);
-
+    // 4. 테이블 초기화
     ui->pEnvTable->clearContents();
     ui->pEnvTable->setRowCount(0);
 
+    // 5. DB 커밋
     QSqlDatabase db = QSqlDatabase::database();
     if(db.isOpen()) {
         if(!db.commit()) {

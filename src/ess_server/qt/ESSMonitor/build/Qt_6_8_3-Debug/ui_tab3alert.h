@@ -16,6 +16,7 @@
 #include <QtWidgets/QDateTimeEdit>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableWidget>
@@ -41,6 +42,9 @@ public:
     QPushButton *pPBSearchDB;
     QVBoxLayout *pAlertlogLayout;
     QTableWidget *pAlertTable;
+    QHBoxLayout *horizontalLayout_3;
+    QSpacerItem *horizontalSpacer_2;
+    QLabel *pLSearchCount;
 
     void setupUi(QWidget *Tab3Alert)
     {
@@ -60,6 +64,7 @@ public:
         pDateTimeFrom = new QDateTimeEdit(Tab3Alert);
         pDateTimeFrom->setObjectName("pDateTimeFrom");
         pDateTimeFrom->setMinimumDate(QDate(2025, 12, 1));
+        pDateTimeFrom->setDisplayFormat(QString::fromUtf8("yyyy-MM-dd hh:mm"));
 
         verticalLayout->addWidget(pDateTimeFrom);
 
@@ -79,6 +84,7 @@ public:
         pDateTimeTo = new QDateTimeEdit(Tab3Alert);
         pDateTimeTo->setObjectName("pDateTimeTo");
         pDateTimeTo->setMinimumDate(QDate(2025, 12, 1));
+        pDateTimeTo->setDisplayFormat(QString::fromUtf8("yyyy-MM-dd hh:mm"));
 
         verticalLayout_2->addWidget(pDateTimeTo);
 
@@ -133,6 +139,22 @@ public:
 
         pAlertlogLayout->addWidget(pAlertTable);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName("horizontalLayout_3");
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
+        pLSearchCount = new QLabel(Tab3Alert);
+        pLSearchCount->setObjectName("pLSearchCount");
+
+        horizontalLayout_3->addWidget(pLSearchCount);
+
+        horizontalLayout_3->setStretch(0, 7);
+        horizontalLayout_3->setStretch(1, 2);
+
+        pAlertlogLayout->addLayout(horizontalLayout_3);
+
 
         verticalLayout_3->addLayout(pAlertlogLayout);
 
@@ -160,19 +182,20 @@ public:
 
         pPBSearchDB->setText(QCoreApplication::translate("Tab3Alert", "\354\241\260\355\232\214", nullptr));
         QTableWidgetItem *___qtablewidgetitem = pAlertTable->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("Tab3Alert", "Id", nullptr));
+        ___qtablewidgetitem->setText(QCoreApplication::translate("Tab3Alert", "id", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = pAlertTable->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QCoreApplication::translate("Tab3Alert", "alert time", nullptr));
+        ___qtablewidgetitem1->setText(QCoreApplication::translate("Tab3Alert", "Time", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = pAlertTable->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("Tab3Alert", "event type", nullptr));
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("Tab3Alert", "Type", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = pAlertTable->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("Tab3Alert", "level", nullptr));
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("Tab3Alert", "Level", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = pAlertTable->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QCoreApplication::translate("Tab3Alert", "value", nullptr));
+        ___qtablewidgetitem4->setText(QCoreApplication::translate("Tab3Alert", "Value", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = pAlertTable->horizontalHeaderItem(5);
-        ___qtablewidgetitem5->setText(QCoreApplication::translate("Tab3Alert", "location", nullptr));
+        ___qtablewidgetitem5->setText(QCoreApplication::translate("Tab3Alert", "Location", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = pAlertTable->horizontalHeaderItem(6);
-        ___qtablewidgetitem6->setText(QCoreApplication::translate("Tab3Alert", "message", nullptr));
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("Tab3Alert", "Message", nullptr));
+        pLSearchCount->setText(QString());
     } // retranslateUi
 
 };

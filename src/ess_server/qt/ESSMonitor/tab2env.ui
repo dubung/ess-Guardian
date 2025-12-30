@@ -86,14 +86,14 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,4">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QTableWidget" name="pEnvTable">
            <column>
             <property name="text">
-             <string>ID</string>
+             <string>id</string>
             </property>
            </column>
            <column>
@@ -103,12 +103,12 @@
            </column>
            <column>
             <property name="text">
-             <string>Temperature</string>
+             <string>Temp</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>Humidity</string>
+             <string>Humi</string>
             </property>
            </column>
           </widget>

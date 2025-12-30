@@ -113,8 +113,8 @@ public:
 
         horizontalLayout_2->addLayout(pChartViewLayout);
 
-        horizontalLayout_2->setStretch(0, 1);
-        horizontalLayout_2->setStretch(1, 1);
+        horizontalLayout_2->setStretch(0, 3);
+        horizontalLayout_2->setStretch(1, 4);
 
         verticalLayout_2->addLayout(horizontalLayout_2);
 
@@ -133,13 +133,13 @@ public:
         pPBSearchDB->setText(QCoreApplication::translate("Tab2Env", "\354\241\260\355\232\214", nullptr));
         pPBDeleteDB->setText(QCoreApplication::translate("Tab2Env", "\354\202\255\354\240\234", nullptr));
         QTableWidgetItem *___qtablewidgetitem = pEnvTable->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("Tab2Env", "ID", nullptr));
+        ___qtablewidgetitem->setText(QCoreApplication::translate("Tab2Env", "id", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = pEnvTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QCoreApplication::translate("Tab2Env", "Time", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = pEnvTable->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("Tab2Env", "Temperature", nullptr));
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("Tab2Env", "Temp", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = pEnvTable->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("Tab2Env", "Humidity", nullptr));
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("Tab2Env", "Humi", nullptr));
     } // retranslateUi
 
 };

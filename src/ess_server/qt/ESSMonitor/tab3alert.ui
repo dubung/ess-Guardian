@@ -31,6 +31,9 @@
                <day>1</day>
               </date>
              </property>
+             <property name="displayFormat">
+              <string notr="true">yyyy-MM-dd hh:mm</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -64,6 +67,9 @@
                <month>12</month>
                <day>1</day>
               </date>
+             </property>
+             <property name="displayFormat">
+              <string notr="true">yyyy-MM-dd hh:mm</string>
              </property>
             </widget>
            </item>
@@ -118,40 +124,64 @@
         <widget class="QTableWidget" name="pAlertTable">
          <column>
           <property name="text">
-           <string>Id</string>
+           <string>id</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>alert time</string>
+           <string>Time</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>event type</string>
+           <string>Type</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>level</string>
+           <string>Level</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>value</string>
+           <string>Value</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>location</string>
+           <string>Location</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>message</string>
+           <string>Message</string>
           </property>
          </column>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="7,2">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="pLSearchCount">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>

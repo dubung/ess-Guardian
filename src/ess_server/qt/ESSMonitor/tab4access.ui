@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,7">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,3,2,0,1">
        <item>
         <widget class="QDateTimeEdit" name="pDateTimeFrom">
          <property name="minimumDate">
@@ -26,6 +26,9 @@
            <month>12</month>
            <day>1</day>
           </date>
+         </property>
+         <property name="displayFormat">
+          <string notr="true">yyyy-MM-dd hh:mm</string>
          </property>
         </widget>
        </item>
@@ -38,10 +41,18 @@
            <day>1</day>
           </date>
          </property>
+         <property name="displayFormat">
+          <string notr="true">yyyy-MM-dd hh:mm</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QComboBox" name="pCBAccessPoints">
+         <item>
+          <property name="text">
+           <string>all</string>
+          </property>
+         </item>
          <item>
           <property name="text">
            <string>main</string>
@@ -59,17 +70,7 @@
          </item>
          <item>
           <property name="text">
-           <string>ew3</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
            <string>ww1</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>ww2</string>
           </property>
          </item>
          <item>
@@ -85,11 +86,6 @@
          <item>
           <property name="text">
            <string>nw1</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>nw2</string>
           </property>
          </item>
         </widget>
@@ -108,7 +104,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pPBSearchDB">
          <property name="text">
           <string>조회</string>
          </property>
@@ -119,7 +115,57 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTableWidget" name="tableWidget"/>
+        <widget class="QTableWidget" name="pAccessTable">
+         <column>
+          <property name="text">
+           <string>id</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Admin id</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Access point</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Result</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Time</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="7,2">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="pLSearchCount">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
