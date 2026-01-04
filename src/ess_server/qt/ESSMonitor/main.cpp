@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "ess_db");
     db.setHostName("10.10.14.109");
     db.setDatabaseName("ess_db");
     db.setUserName("ess");
