@@ -80,7 +80,7 @@ def handle_access_request(client, data):
     admin = get_admin_by_id(admin_id)
 
     if admin:
-        # admin은admin은 {"id": 3, "access_points": "main,ew2"} 구조라고 가정
+        # admin은 {"id": 3, "access_points": "main,ew2"} 구조라고 가정
         access_points = admin.get("access_points", "")
         allowed_points = [x.strip() for x in access_points.split(",")]
 
