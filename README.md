@@ -9,8 +9,8 @@
 ---
 
 
-### Full Demo Video
-- ▶️ **Full Demo (All-in-one):** [Watch the video](<여기에_링크
+### Full Demo (All-in-one)
+[![full-demo](docs/assets/demo/full-demo-thumb.png)](docs/assets/vedio/full_demo.mp4)
 
 ---
 
