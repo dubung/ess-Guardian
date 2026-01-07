@@ -43,6 +43,7 @@
 
 ## Hardware Architecture
 ![hw-arch](docs/assets/slides/hw-arch.png)
+![hw-arch2](docs/assets/slides/hw-arch2.png)
 
 ---
 
