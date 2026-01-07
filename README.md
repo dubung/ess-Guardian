@@ -10,20 +10,20 @@
 
 
 ### Full Demo (All-in-one)
-[![full-demo](docs/assets/demo/full-demo-thumb.png)](docs/assets/vedio/full_demo.mp4)
+[![full-demo](docs/assets/demo/full-demo-thumb.png)](docs/assets/vedio/full_demo.gif)
 
 ---
 
 ### Video Clips (click to open)
 - ArUco Auto-Docking  
-  [![aruco](docs/assets/demo/aruco-thumb.png)](docs/assets/video/aruco.mp4)
+  [![aruco](docs/assets/demo/aruco-thumb.png)](docs/assets/video/aruco.gif)
 
 - Emergency / Critical / Warning / Ventilation / RFID  
-  - [Emergency](docs/assets/video/emergency.mp4)
-  - [Critical](docs/assets/video/critical.mp4)
-  - [Warning](docs/assets/video/warning.mp4)
-  - [Ventilation](docs/assets/video/ventilation.mp4)
-  - [RFID](docs/assets/video/rfid.mp4)
+  - [Emergency](docs/assets/video/emergency.gif)
+  - [Critical](docs/assets/video/critical.gif)
+  - [Warning](docs/assets/video/warning.gif)
+  - [Ventilation](docs/assets/video/ventilation.gif)
+  - [RFID](docs/assets/video/rfid.gif)
   - 
 ---
 
