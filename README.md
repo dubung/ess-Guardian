@@ -75,15 +75,16 @@
 
 ## Hardware Architecture
 
-<p>
-  <img src="docs/assets/slides/hw-arch.png"  width="900">
+<p align="center">
+  <img src="docs/assets/slides/hw-arch.png" width="900" alt="HW Arch 1">
 </p>
-<p>
-  <img src="docs/assets/slides/hw-arch2.png" width="900">
+<p align="center">
+  <img src="docs/assets/slides/hw-arch2.png" width="900" alt="HW Arch 2">
 </p>
-<p>
-  <img src="docs/assets/slides/hw-arch3.png" width="900">
+<p align="center">
+  <img src="docs/assets/slides/hw-arch3.png" width="900" alt="HW Arch 3">
 </p>
+
 ---
 
 ## Software Architecture
