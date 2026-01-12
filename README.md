@@ -1,4 +1,4 @@
-# E.S.S.E.N.T.I.A.L  test
+# E.S.S.E.N.T.I.A.L
 **ESS Safety System with Environmental & Thermal Intelligent ALert**
 
 > ESS 시설의 화재/가스/환경 이상을 감지하고,  
