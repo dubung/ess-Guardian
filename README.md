@@ -245,3 +245,29 @@ Control Tower 기능 강화(필터/리포트/통계)
 - 관련 코드: `src/ess_server/`
 
 </details>
+
+
+<details>
+<summary><b>MyWork</b></summary>
+🚗 ROS2 Control & Navigation (My Work: 이두현)
+What I built
+
+ROS2 Control Node (control_node) 하나에서
+Nav2 순찰(Zone 이동) + 리프터(GPIO) 제어 + 열화상 촬영 트리거 + 비상 우선순위 큐 + 홈 복귀/ArUco 도킹까지 통합 상태머신(FSM) 으로 관리했습니다.
+
+- 50ms Tick 기반 FSM (예측 가능한 주기 + 꼬임 방지)
+
+- Nav2 Action (navigate_to_pose) 로 Waypoint 순찰
+
+- TF 기반 로봇 위치 추정(map -> base_link) 후 Zone 상태 실시간 산출/발행
+
+- GPIO(libgpiod) + poll 기반 센서 이벤트 처리로 리프터를 ROS 노드 안에서 제어
+
+- Emergency Queue(중복 방지 포함) 로 “현재 작업 → 비상 우선 처리 → 복귀” 흐름 구현
+
+- Home 요청 시 Nav2 목표 강제 취소 + 정지 + 상태/변수 초기화로 즉시 복귀
+
+
+
+
+</details>
