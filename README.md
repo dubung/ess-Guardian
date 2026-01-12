@@ -9,10 +9,54 @@
 ---
 
 
+
+## ✅ My Contribution (ROS2 / Navigation)
+
+### Summary
+`control_node` 하나로 **순찰(Nav2) + 리프터(GPIO) + 열화상 트리거 + 비상 우선 처리(Queue) + 홈 복귀 + ArUco 최종 도킹**을  
+**50ms 주기 FSM**으로 통합 제어했습니다.
+
+- **50ms Tick FSM** 기반으로 상태 전이/타이밍 제어
+- **Nav2 Action (`navigate_to_pose`)** 로 구역(Zone) 순찰 및 홈 복귀
+- **TF (`map → base_link`)** 로 현재 위치를 가져와 **Zone 상태 계산/발행**
+- **libgpiod + poll()** 로 리프터 센서 이벤트 처리, 모터 제어(상/하강)
+- `/ess/priority_zone` 수신 시 **Nav2 goal 강제 취소 + 정지 + 비상 큐 처리**
+- 홈 요청(`/ess/home`) 시 **즉시 리셋 루틴(취소/정지/변수 초기화)** 후 홈 복귀
+- 홈 도착 후 `/ess/aruco/request`로 정렬 요청, **ACK 또는 10초 타임아웃 기반 fail-safe**
+
+---
+
+### FSM Flow (Core)
+- **Patrol**: Home → Zone1 → Zone2 → Zone3 → Home  
+- 각 Zone에서 **1~3층 리프터 이동 + 열화상 촬영 요청** 수행  
+- **Emergency**: `/ess/priority_zone` 발생 시 현재 작업 중단 → 큐 기반으로 비상 처리 → 완료 후 정상 순찰 복귀  
+- **Docking**: Home 도착 후 ArUco 정렬 요청 → 성공 시 IDLE / 타임아웃 시 fail-safe로 IDLE
+
+---
+
+### ROS Interfaces (Topics)
+
+**Subscribers**
+- `/ess/home` (`std_msgs/Bool`) : 강제 홈 복귀 트리거  
+- `/ess/thermal/ack` (`std_msgs/Int32`) : 열화상 처리 완료 ACK  
+- `/ess/priority_zone` (`std_msgs/Int32`) : 비상 구역 입력(우선 처리 큐)  
+- `/ess/aruco/ack` (`std_msgs/Int32`) : ArUco 정렬 완료 ACK  
+
+**Publishers**
+- `/cmd_vel` (`geometry_msgs/Twist`) : 정지/안전 제어  
+- `/ess/request/id` (`std_msgs/Int32`) : 열화상 촬영 요청 ID (Zone+Floor 조합)  
+- `/ess/robot_pose` (`geometry_msgs/Pose`) : (옵션) 로봇 위치 전달용  
+- `/ess/aruco/request` (`std_msgs/Int32`) : ArUco 정렬 시작/중단 요청  
+- `/ess/zone_status` (`std_msgs/Int32`) : 현재 Zone 번호 UI 표시용  
+
+---
+
+
 ### Full Demo (All-in-one)
 <a href="docs/assets/video/full_demo.gif">
   <img src="docs/assets/video/full_demo.gif" width="900">
 </a>
+
 
 ### Video Clips
 
@@ -246,47 +290,3 @@ Control Tower 기능 강화(필터/리포트/통계)
 
 </details>
 
-
-<details>
-<summary><b>MyWork</b></summary>
----
-## 🤖 ROS2 Control & Navigation (My Work: 이두현)
-### Summary
-`control_node` 하나로 **순찰(Nav2) + 리프터(GPIO) + 열화상 트리거 + 비상 우선 처리(Queue) + 홈 복귀 + ArUco 최종 도킹**을 **50ms 주기 FSM**으로 통합 제어했습니다.
-
-- **50ms Tick FSM** 기반으로 상태 전이/타이밍 제어
-- **Nav2 Action (`navigate_to_pose`)** 로 구역(Zone) 순찰 및 홈 복귀
-- **TF (`map → base_link`)** 로 현재 위치를 가져와 **Zone 상태 계산/발행**
-- **libgpiod + poll()** 로 리프터 센서 이벤트 처리, 모터 제어(상/하강)
-- `/ess/priority_zone` 수신 시 **Nav2 goal 강제 취소 + 정지 + 비상 큐 처리**
-- 홈 요청(`/ess/home`) 시 **즉시 리셋 루틴(취소/정지/변수 초기화)** 후 홈 복귀
-- 홈 도착 후 `/ess/aruco/request`로 정렬 요청, **ACK 또는 10초 타임아웃 기반 fail-safe**
-
----
-
-### FSM Flow (Core)
-- **Patrol**: Home → Zone1 → Zone2 → Zone3 → Home  
-- 각 Zone에서 **1~3층 리프터 이동 + 열화상 촬영 요청** 수행  
-- **Emergency**: `/ess/priority_zone` 발생 시 현재 작업 중단 → 큐 기반으로 비상 처리 → 완료 후 정상 순찰 복귀  
-- **Docking**: Home 도착 후 ArUco 정렬 요청 → 성공 시 IDLE / 타임아웃 시 fail-safe로 IDLE
-
----
-
-### ROS Interfaces (Topics)
-
-**Subscribers**
-- `/ess/home` (`std_msgs/Bool`) : 강제 홈 복귀 트리거  
-- `/ess/thermal/ack` (`std_msgs/Int32`) : 열화상 처리 완료 ACK  
-- `/ess/priority_zone` (`std_msgs/Int32`) : 비상 구역 입력(우선 처리 큐)  
-- `/ess/aruco/ack` (`std_msgs/Int32`) : ArUco 정렬 완료 ACK  
-
-**Publishers**
-- `/cmd_vel` (`geometry_msgs/Twist`) : 정지/안전 제어  
-- `/ess/request/id` (`std_msgs/Int32`) : 열화상 촬영 요청 ID (Zone+Floor 조합)  
-- `/ess/robot_pose` (`geometry_msgs/Pose`) : (옵션) 로봇 위치 전달용  
-- `/ess/aruco/request` (`std_msgs/Int32`) : ArUco 정렬 시작/중단 요청  
-- `/ess/zone_status` (`std_msgs/Int32`) : 현재 Zone 번호 UI 표시용  
-
----
-
-</details>
