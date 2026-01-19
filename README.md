@@ -10,27 +10,45 @@
 
 
 
-## ✅ My Contribution (ROS2 / Navigation)
+## ✅ My Contribution (ROS2 Orchestration / Navigation / MQTT Bridge)
+
+### What I Owned
+- **Robot Orchestration 중심 노드(`control_node`) 설계/구현**: 순찰(Nav2) + 리프터 제어 + 작업 트리거 + 비상 우선 처리까지 **단일 제어면(Control Plane)** 으로 통합
+- **ROS2 ↔ MQTT Bridge Node 구현**: 로봇 이벤트/상태를 서버(MQTT)로 전달하고, 서버 커맨드를 ROS2 토픽/액션으로 연결
+- **FSM(50ms Tick) + 비동기 처리 기반 리프터(모터/센서) 제어 안정화**: 블로킹/지연으로 ROS 콜백이 멈추는 문제를 구조적으로 제거
+
+---
 
 ### Summary
-`control_node` 하나로 **순찰(Nav2) + 리프터(GPIO) + 열화상 트리거 + 비상 우선 처리(Queue) + 홈 복귀 + ArUco 최종 도킹**을  
-**50ms 주기 FSM**으로 통합 제어했습니다.
+`control_node` 하나로 **순찰(Nav2) + 리프터(GPIO) + 열화상 트리거 + 비상 우선 처리(Queue) + 홈 복귀 + ArUco 최종 도킹 요청 연동**을  
+**50ms 주기 FSM**으로 통합 제어했고, 추가로 **ROS2↔MQTT 브릿지 노드**로 서버/관제까지 연결했습니다.
 
 - **50ms Tick FSM** 기반으로 상태 전이/타이밍 제어
 - **Nav2 Action (`navigate_to_pose`)** 로 구역(Zone) 순찰 및 홈 복귀
 - **TF (`map → base_link`)** 로 현재 위치를 가져와 **Zone 상태 계산/발행**
-- **libgpiod + poll()** 로 리프터 센서 이벤트 처리, 모터 제어(상/하강)
+- **libgpiod + `poll()`** 로 리프터 센서 이벤트 처리, 모터 제어(상/하강)
+- 블로킹 작업(모터/대기)을 **비동기 작업 단위로 분리**해 ROS 콜백/주행 제어가 멈추지 않도록 설계
 - `/ess/priority_zone` 수신 시 **Nav2 goal 강제 취소 + 정지 + 비상 큐 처리**
 - 홈 요청(`/ess/home`) 시 **즉시 리셋 루틴(취소/정지/변수 초기화)** 후 홈 복귀
-- 홈 도착 후 `/ess/aruco/request`로 정렬 요청, **ACK 또는 10초 타임아웃 기반 fail-safe**
+- 홈 도착 후 `/ess/aruco/request`로 정렬 요청, **ACK 또는 10초 타임아웃 기반 fail-safe** 적용
+- **ROS2 ↔ MQTT Bridge Node**로 로봇 상태/이벤트를 MQTT로 전송하고, 서버 커맨드를 ROS2 트리거로 변환
 
 ---
 
 ### FSM Flow (Core)
 - **Patrol**: Home → Zone1 → Zone2 → Zone3 → Home  
 - 각 Zone에서 **1~3층 리프터 이동 + 열화상 촬영 요청** 수행  
-- **Emergency**: `/ess/priority_zone` 발생 시 현재 작업 중단 → 큐 기반으로 비상 처리 → 완료 후 정상 순찰 복귀  
+- **Emergency**: `/ess/priority_zone` 발생 시 현재 작업 중단 → **큐 기반으로 비상 처리** → 완료 후 정상 순찰 복귀  
 - **Docking**: Home 도착 후 ArUco 정렬 요청 → 성공 시 IDLE / 타임아웃 시 fail-safe로 IDLE
+
+---
+
+### Async Lift Control (Why it’s stable)
+리프터는 모터 구동/센서 이벤트 대기 특성상 블로킹이 발생하기 쉬워 Nav2/콜백 전체를 멈출 수 있어, 아래 방식으로 안정화를 확보했습니다.
+
+- 센서 입력은 **libgpiod + `poll()`** 로 이벤트 기반 처리(busy-wait 제거)
+- 모터 구동/대기 로직은 **비동기 실행(작업 분리)** 로 FSM 50ms 주기 및 ROS 콜백이 항상 유지되도록 구성
+- 모든 작업은 **ACK/타임아웃**으로 수렴시키고, 타임아웃 시 **즉시 안전 상태(정지/IDLE)로 복귀**하는 fail-safe 적용
 
 ---
 
@@ -50,6 +68,11 @@
 - `/ess/zone_status` (`std_msgs/Int32`) : 현재 Zone 번호 UI 표시용  
 
 ---
+
+### ROS2 ↔ MQTT Bridge (Server Integration)
+- 로봇 상태/이벤트(Zone, Alert, 작업 요청/완료 등)를 **MQTT 토픽으로 Publish**
+- 서버 커맨드(홈 복귀, 우선 구역 처리 등)를 **ROS2 토픽/액션 트리거로 변환**
+- 운영 관제/이력화를 위해 메시지 구조를 **이벤트 단위로 정리**하여 DB/UI 흐름과 맞춤
 
 
 ### Full Demo (All-in-one)
